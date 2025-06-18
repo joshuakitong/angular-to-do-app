@@ -1,1 +1,44 @@
-<p>todo works!</p>
+<div class="container">
+  <div class="todo-box">
+
+    <h1 class="title">To-Do List</h1>
+
+    <form #todoForm="ngForm" (ngSubmit)="addTodo(todoForm)">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Task</mat-label>
+        <input matInput [(ngModel)]="newTodoTitle" name="title" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput [(ngModel)]="newTodoDescription" name="description"></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button class="add-button full-width" type="submit">Add Task</button>
+    </form>
+    
+    <hr class="todo-divider" *ngIf="todos.length > 0" />
+
+    <ul>
+      <li *ngFor="let todo of todos" class="todo-item">
+        <mat-checkbox
+          [checked]="todo.completed"
+          (change)="toggleCompleted(todo)"
+          class="todo-checkbox">
+        </mat-checkbox>
+
+        <div class="todo-text">
+          <strong [class.completed]="todo.completed">{{ todo.title }}</strong>
+          <div *ngIf="todo.description" [class.completed]="todo.completed">
+            {{ todo.description }}
+          </div>
+        </div>
+
+        <button color="warn" mat-icon-button class="delete-button" (click)="deleteTodo(todo)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </li>
+    </ul>
+
+  </div>
+</div>

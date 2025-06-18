@@ -1,11 +1,69 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TodoService } from './todo-service';
+import { TodoItem } from './todo-item';
+import { CommonModule } from '@angular/common';
+import { NgForm } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-todo',
-  imports: [],
+  standalone: true,
+  imports: [
+    FormsModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatListModule,
+    MatIconModule,
+    MatDividerModule
+  ],
   templateUrl: './todo.html',
-  styleUrl: './todo.css'
+  styleUrls: ['./todo.css']
 })
 export class Todo {
+  todos: TodoItem[] = [];
+  newTodoTitle = '';
+  newTodoDescription = '';
 
+  constructor(private todoService: TodoService) {
+    this.loadTodos();
+  }
+
+  loadTodos() {
+    this.todos = this.todoService.getTodos();
+  }
+
+  addTodo(form: NgForm) {
+  if (this.newTodoTitle.trim()) {
+    this.todoService.addTodo(this.newTodoTitle.trim(), this.newTodoDescription.trim());
+    this.loadTodos();
+    
+    this.newTodoTitle = '';
+    this.newTodoDescription = '';
+    
+    form.resetForm({
+      title: '',
+      description: ''
+    });
+  }
+}
+
+  toggleCompleted(todo: TodoItem) {
+    this.todoService.updateTodo(todo.id, { completed: !todo.completed });
+    this.loadTodos();
+  }
+
+  deleteTodo(todo: TodoItem) {
+    this.todoService.deleteTodo(todo.id);
+    this.loadTodos();
+  }
 }
