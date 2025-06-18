@@ -62,7 +62,6 @@ ul {
 }
 
 .todo-checkbox {
-  accent-color: red;
   flex: 0 0 auto;
   margin-top: 6px;
 }
@@ -76,6 +75,7 @@ ul {
 
 .completed {
   text-decoration: line-through;
+  color: #777;
 }
 
 .add-button {
