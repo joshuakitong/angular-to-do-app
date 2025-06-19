@@ -33,6 +33,7 @@ export class Todo {
   todos: TodoItem[] = [];
   newTodoTitle = '';
   newTodoDescription = '';
+  editingTodoId: number | null = null;
 
   constructor(private todoService: TodoService) {
     this.loadTodos();
@@ -42,20 +43,21 @@ export class Todo {
     this.todos = this.todoService.getTodos();
   }
 
-  addTodo(form: NgForm) {
-  if (this.newTodoTitle.trim()) {
-    this.todoService.addTodo(this.newTodoTitle.trim(), this.newTodoDescription.trim());
+  onSubmit(form: NgForm) {
+    if (!this.newTodoTitle.trim()) return;
+
+    if (this.editingTodoId !== null) {
+      this.todoService.updateTodo(this.editingTodoId, {
+        title: this.newTodoTitle.trim(),
+        description: this.newTodoDescription.trim()
+      });
+    } else {
+      this.todoService.addTodo(this.newTodoTitle.trim(), this.newTodoDescription.trim());
+    }
+
     this.loadTodos();
-    
-    this.newTodoTitle = '';
-    this.newTodoDescription = '';
-    
-    form.resetForm({
-      title: '',
-      description: ''
-    });
+    this.resetForm(form);
   }
-}
 
   toggleCompleted(todo: TodoItem) {
     this.todoService.updateTodo(todo.id, { completed: !todo.completed });
@@ -65,5 +67,22 @@ export class Todo {
   deleteTodo(todo: TodoItem) {
     this.todoService.deleteTodo(todo.id);
     this.loadTodos();
+  }
+
+  editTodo(todo: TodoItem) {
+    this.newTodoTitle = todo.title;
+    this.newTodoDescription = todo.description;
+    this.editingTodoId = todo.id;
+  }
+
+  resetForm(form: NgForm) {
+    this.newTodoTitle = '';
+    this.newTodoDescription = '';
+    this.editingTodoId = null;
+
+    form.resetForm({
+      title: '',
+      description: ''
+    });
   }
 }

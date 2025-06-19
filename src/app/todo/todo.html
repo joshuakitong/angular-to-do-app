@@ -3,18 +3,21 @@
 
     <h1 class="title">To-Do List</h1>
 
-    <form #todoForm="ngForm" (ngSubmit)="addTodo(todoForm)">
+    <form #todoForm="ngForm" (ngSubmit)="onSubmit(todoForm)">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Task</mat-label>
+        <mat-label>{{ editingTodoId !== null ? 'Update Task' : 'Task' }}</mat-label>
         <input matInput [(ngModel)]="newTodoTitle" name="title" required />
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Description</mat-label>
-        <textarea matInput [(ngModel)]="newTodoDescription" name="description"></textarea>
+        <mat-label>{{ editingTodoId !== null ? 'Update Description' : 'Description' }}</mat-label>
+        <textarea matInput [(ngModel)]="newTodoDescription" maxlength="200" name="description"></textarea>
+        <mat-hint align="end">{{ newTodoDescription.length }}/200</mat-hint>
       </mat-form-field>
 
-      <button mat-raised-button class="add-button full-width" type="submit">Add Task</button>
+      <button mat-raised-button class="add-button full-width" type="submit">
+        {{ editingTodoId !== null ? 'Update' : 'Add' }}
+      </button>
     </form>
     
     <hr class="todo-divider" *ngIf="todos.length > 0" />
@@ -24,7 +27,8 @@
         <mat-checkbox
           [checked]="todo.completed"
           (change)="toggleCompleted(todo)"
-          class="todo-checkbox">
+          class="todo-checkbox"
+          [disabled]="editingTodoId !== null">
         </mat-checkbox>
 
         <div class="todo-text">
@@ -33,8 +37,10 @@
             {{ todo.description }}
           </div>
         </div>
-
-        <button color="warn" mat-icon-button class="delete-button" (click)="deleteTodo(todo)">
+        <button color="warn" mat-icon-button class="edit-button" [disabled]="editingTodoId !== null" (click)="editTodo(todo)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button color="warn" mat-icon-button class="delete-button" [disabled]="editingTodoId !== null" (click)="deleteTodo(todo)">
           <mat-icon>delete</mat-icon>
         </button>
       </li>
