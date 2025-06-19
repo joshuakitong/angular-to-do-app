@@ -67,17 +67,17 @@ export class Todo {
   }
 
   deleteTodo(todo: TodoItem) {
-  const dialogRef = this.dialog.open(ConfirmDialog, {
-    data: { title: todo.title }
-  });
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      data: { title: todo.title }
+    });
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.todoService.deleteTodo(todo.id);
-      this.loadTodos();
-    }
-  });
-}
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.todoService.deleteTodo(todo.id);
+        this.loadTodos();
+      }
+    });
+  }
 
   editTodo(todo: TodoItem) {
     this.newTodoTitle = todo.title;
