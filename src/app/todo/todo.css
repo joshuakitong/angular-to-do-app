@@ -87,10 +87,19 @@ ul {
 .add-button {
   background-color: #2196f3 !important;
   color: white !important;
+  margin-bottom: 0.5rem;
 }
 
 .add-button:hover {
   background-color: #1976d2 !important;
+}
+
+button[disabled],
+button.mat-button-disabled,
+button.mat-raised-button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .delete-button {

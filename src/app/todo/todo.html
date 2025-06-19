@@ -15,8 +15,16 @@
         <mat-hint align="end">{{ newTodoDescription.length }}/200</mat-hint>
       </mat-form-field>
 
-      <button mat-raised-button class="add-button full-width" type="submit">
+      <button mat-raised-button class="add-button full-width" type="submit" [disabled]="editingTodoId !== null && isUnchanged()">
         {{ editingTodoId !== null ? 'Update' : 'Add' }}
+      </button>
+      <button
+        *ngIf="editingTodoId !== null"
+        mat-stroked-button
+        class="full-width"
+        type="button"
+        (click)="cancelEdit(todoForm)">
+        Cancel
       </button>
     </form>
     

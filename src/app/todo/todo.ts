@@ -38,6 +38,8 @@ export class Todo {
   newTodoTitle = '';
   newTodoDescription = '';
   editingTodoId: number | null = null;
+  originalTitle = '';
+  originalDescription = '';
 
   constructor(private todoService: TodoService, private dialog: MatDialog) {
     this.loadTodos();
@@ -84,7 +86,20 @@ export class Todo {
   editTodo(todo: TodoItem) {
     this.newTodoTitle = todo.title;
     this.newTodoDescription = todo.description;
+    this.originalTitle = todo.title;
+    this.originalDescription = todo.description;
     this.editingTodoId = todo.id;
+  }
+
+  cancelEdit(form: NgForm) {
+    this.resetForm(form);
+  }
+
+  isUnchanged(): boolean {
+    return (
+      this.newTodoTitle.trim() === this.originalTitle.trim() &&
+      this.newTodoDescription.trim() === this.originalDescription.trim()
+    );
   }
 
   resetForm(form: NgForm) {
