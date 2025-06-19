@@ -14,6 +14,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-todo',
@@ -41,7 +42,7 @@ export class Todo {
   originalTitle = '';
   originalDescription = '';
 
-  constructor(private todoService: TodoService, private dialog: MatDialog) {
+  constructor(private todoService: TodoService, private dialog: MatDialog, private snackBar: MatSnackBar) {
     this.loadTodos();
   }
 
@@ -57,8 +58,10 @@ export class Todo {
         title: this.newTodoTitle.trim(),
         description: this.newTodoDescription.trim()
       });
+      this.showToast(this.newTodoTitle.trim() + ' updated successfully');
     } else {
       this.todoService.addTodo(this.newTodoTitle.trim(), this.newTodoDescription.trim());
+      this.showToast(this.newTodoTitle.trim() + ' added successfully');
     }
 
     this.loadTodos();
@@ -79,6 +82,7 @@ export class Todo {
       if (result) {
         this.todoService.deleteTodo(todo.id);
         this.loadTodos();
+        this.showToast(todo.title.trim() + ' deleted successfully');
       }
     });
   }
@@ -116,5 +120,13 @@ export class Todo {
   drop(event: CdkDragDrop<TodoItem[]>) {
     moveItemInArray(this.todos, event.previousIndex, event.currentIndex);
     this.todoService.reorderTodos(this.todos);
+  }
+
+  showToast(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
   }
 }

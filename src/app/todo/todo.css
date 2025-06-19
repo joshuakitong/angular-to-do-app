@@ -119,3 +119,9 @@ button.mat-raised-button[disabled] {
 .cdk-drag-placeholder {
   opacity: 0.2;
 }
+
+.mat-snack-bar-container {
+  background-color: #323232;
+  color: #fff;
+  font-size: 14px;
+}
