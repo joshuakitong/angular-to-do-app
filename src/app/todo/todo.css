@@ -8,12 +8,18 @@
 
 .todo-box {
   background: white;
-  padding: 2rem;
-  margin: 2rem;
+  padding: 2rem 1rem;
+  margin: 2rem 0.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 500px;
+}
+
+@media (min-width: 768px) {
+  .todo-box {
+    padding: 2rem 2rem;
+  }
 }
 
 .title {
@@ -91,4 +97,16 @@ ul {
   flex: 0 0 auto;
   border-radius: 4px;
   margin-top: 4px;
+}
+
+.cdk-drag-preview {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 0.5rem;
+  z-index: 1000;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.2;
 }

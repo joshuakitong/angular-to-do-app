@@ -3,45 +3,42 @@ import { TodoItem } from './todo-item';
 
 @Injectable({ providedIn: 'root' })
 export class TodoService {
-  private todos: TodoItem[] = [];
-  private storageKey = 'my-todo-list';
-
-  constructor() {
-    this.loadFromStorage();
-  }
-
-  private saveToStorage() {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.todos));
-  }
-
-  private loadFromStorage() {
-    const stored = localStorage.getItem(this.storageKey);
-    this.todos = stored ? JSON.parse(stored) : [];
-  }
+  private storageKey = 'todos';
 
   getTodos(): TodoItem[] {
-    return [...this.todos];
+    const stored = localStorage.getItem(this.storageKey);
+    return stored ? JSON.parse(stored) : [];
+  }
+
+  saveTodos(todos: TodoItem[]) {
+    localStorage.setItem(this.storageKey, JSON.stringify(todos));
   }
 
   addTodo(title: string, description: string) {
+    const todos = this.getTodos();
     const newTodo: TodoItem = {
       id: Date.now(),
       title,
       description,
       completed: false
     };
-    this.todos.push(newTodo);
-    this.saveToStorage();
+    todos.push(newTodo);
+    this.saveTodos(todos);
   }
 
   updateTodo(id: number, changes: Partial<TodoItem>) {
-    const todo = this.todos.find(t => t.id === id);
-    if (todo) Object.assign(todo, changes);
-    this.saveToStorage();
+    const todos = this.getTodos().map(todo =>
+      todo.id === id ? { ...todo, ...changes } : todo
+    );
+    this.saveTodos(todos);
   }
 
   deleteTodo(id: number) {
-    this.todos = this.todos.filter(t => t.id !== id);
-    this.saveToStorage();
+    const todos = this.getTodos().filter(todo => todo.id !== id);
+    this.saveTodos(todos);
+  }
+
+  reorderTodos(newOrder: TodoItem[]) {
+    this.saveTodos(newOrder);
   }
 }

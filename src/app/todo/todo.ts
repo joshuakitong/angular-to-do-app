@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
+import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-todo',
@@ -26,7 +27,8 @@ import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
     MatCheckboxModule,
     MatListModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    DragDropModule
   ],
   templateUrl: './todo.html',
   styleUrls: ['./todo.css']
@@ -94,5 +96,10 @@ export class Todo {
       title: '',
       description: ''
     });
+  }
+
+  drop(event: CdkDragDrop<TodoItem[]>) {
+    moveItemInArray(this.todos, event.previousIndex, event.currentIndex);
+    this.todoService.reorderTodos(this.todos);
   }
 }

@@ -22,8 +22,11 @@
     
     <hr class="todo-divider" *ngIf="todos.length > 0" />
 
-    <ul>
-      <li *ngFor="let todo of todos" class="todo-item">
+    <ul cdkDropList (cdkDropListDropped)="drop($event)">
+      <li *ngFor="let todo of todos" class="todo-item" cdkDrag>
+        <button cdkDragHandle mat-icon-button [disabled]="editingTodoId !== null" (click)="editTodo(todo)">
+          <mat-icon>menu</mat-icon>
+        </button>
         <mat-checkbox
           [checked]="todo.completed"
           (change)="toggleCompleted(todo)"
@@ -37,10 +40,10 @@
             {{ todo.description }}
           </div>
         </div>
-        <button color="warn" mat-icon-button class="edit-button" [disabled]="editingTodoId !== null" (click)="editTodo(todo)">
+        <button mat-icon-button [disabled]="editingTodoId !== null" (click)="editTodo(todo)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button color="warn" mat-icon-button class="delete-button" [disabled]="editingTodoId !== null" (click)="deleteTodo(todo)">
+        <button mat-icon-button [disabled]="editingTodoId !== null" (click)="deleteTodo(todo)">
           <mat-icon>delete</mat-icon>
         </button>
       </li>
