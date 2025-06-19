@@ -11,6 +11,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-todo',
@@ -35,7 +37,7 @@ export class Todo {
   newTodoDescription = '';
   editingTodoId: number | null = null;
 
-  constructor(private todoService: TodoService) {
+  constructor(private todoService: TodoService, private dialog: MatDialog) {
     this.loadTodos();
   }
 
@@ -65,9 +67,17 @@ export class Todo {
   }
 
   deleteTodo(todo: TodoItem) {
-    this.todoService.deleteTodo(todo.id);
-    this.loadTodos();
-  }
+  const dialogRef = this.dialog.open(ConfirmDialog, {
+    data: { title: todo.title }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.todoService.deleteTodo(todo.id);
+      this.loadTodos();
+    }
+  });
+}
 
   editTodo(todo: TodoItem) {
     this.newTodoTitle = todo.title;
