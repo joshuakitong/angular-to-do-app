@@ -12,3 +12,19 @@ Live: [View Site](https://joshuakitong.github.io/angular-to-do-app)
  - Responsive layout using Angular Material
  - Confirmation modal on delete
  - Toast notifications for actions
+
+<details>
+  <summary><strong>How to Run Locally</strong></summary>
+
+  1. Clone the repo  
+     `https://github.com/joshuakitong/angular-to-do-app`
+
+  2. Navigate to the project folder  
+     `cd angular-to-do-app`
+
+  3. Install dependencies  
+     `npm install`
+
+  4. Run the app  
+     `ng serve`
+</details>
