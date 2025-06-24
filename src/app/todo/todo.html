@@ -32,7 +32,7 @@
 
     <ul cdkDropList (cdkDropListDropped)="drop($event)">
       <li *ngFor="let todo of todos" class="todo-item" cdkDrag>
-        <button cdkDragHandle mat-icon-button [disabled]="editingTodoId !== null" (click)="editTodo(todo)">
+        <button cdkDragHandle mat-icon-button [disabled]="editingTodoId !== null">
           <mat-icon>menu</mat-icon>
         </button>
         <mat-checkbox
