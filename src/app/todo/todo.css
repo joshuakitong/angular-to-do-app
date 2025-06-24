@@ -103,9 +103,9 @@ button.mat-raised-button[disabled] {
 }
 
 .delete-button {
-  flex: 0 0 auto;
-  border-radius: 4px;
-  margin-top: 4px;
+  margin-top: 1rem;
+  background-color: #f44336 !important;
+  color: white !important;
 }
 
 .cdk-drag-preview {

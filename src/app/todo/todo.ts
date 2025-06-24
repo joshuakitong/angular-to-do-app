@@ -129,4 +129,25 @@ export class Todo {
       verticalPosition: 'bottom'
     });
   }
+
+  get checkedCount(): number {
+    return this.todos.filter(todo => todo.completed).length;
+  }
+
+  deleteCheckedItems() {
+  const checkedItems = this.todos.filter(todo => todo.completed);
+  const count = checkedItems.length;
+
+  const dialogRef = this.dialog.open(ConfirmDialog, {
+    data: { title: `${count} completed tasks` }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.todos = this.todos.filter(todo => !todo.completed);
+      this.todoService.saveTodos(this.todos);
+      this.showToast(`${count} item${count > 1 ? 's' : ''} deleted successfully`);
+    }
+  });
+}
 }

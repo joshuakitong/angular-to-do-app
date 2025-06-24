@@ -56,6 +56,13 @@
         </button>
       </li>
     </ul>
-
+    <button
+      *ngIf="checkedCount >= 2"
+      mat-raised-button
+      color="warn"
+      class="full-width delete-button"
+      (click)="deleteCheckedItems()">
+      Delete {{ checkedCount }} Completed Tasks
+    </button>
   </div>
 </div>
